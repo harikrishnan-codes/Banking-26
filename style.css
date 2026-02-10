@@ -173,8 +173,34 @@
 body {
     font-family: Arial, sans-serif;
     background-color: var(--light);
+    
+ }
+
+ 
+
+ /* Ensure no horizontal overflow anywhere */
+html, body {
     overflow-x: hidden;
 }
+/* Optional: Reduce translate distances on mobile to prevent overflow */
+@media (max-width: 768px) {
+    .reveal-left {
+        transform: translateX(-20px);
+    }
+
+    .reveal-right {
+        transform: translateX(20px);
+    }
+
+    .reveal-up {
+        transform: translateY(20px);
+    }
+
+    .reveal-down {
+        transform: translateY(-20px);
+    }
+}
+
 
 /* ================= HEADER ================= */
 .header {
@@ -252,6 +278,17 @@ body {
 
 /* ================= MOBILE VIEW ================= */
 @media (max-width: 768px) {
+  body{
+    padding-top: 50px;
+  }
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2000;
+  }
+  
 
     .hamburger {
         display: flex;
@@ -305,11 +342,7 @@ body {
 
 
 
-/* :root {
-    --Dark: rgb(156, 18, 78);
-    --light: rgb(254, 242, 231);
-    --black: rgb(88, 86, 82);
-} */
+
 
 .hero {
     position: relative;
@@ -404,8 +437,9 @@ body {
     }
 
     .hero-image img {
-        width: 240px;
-        margin-top: 30px;
+        width: 350px;
+        height: 200px;
+        margin-top: 10px;
     }
 }
 
@@ -418,10 +452,6 @@ body {
 
 
 
-/* :root {
-  --Dark: rgb(156, 18, 78);
-  --light: rgb(254, 242, 231);
-} */
 
 /* SECTION */
 .partners-section {
@@ -510,13 +540,7 @@ body {
 
 
 
-/* :root {
-  --Dark: rgb(156, 18, 78);
-  --light: rgb(254, 242, 231);
-  --black: rgb(88, 86, 82);
-} */
-
-/* SECTION */
+/* ================= TRUST SECTION ================= */
 .trust-section {
     padding: 80px 20px;
     background-color: var(--bc-1);
@@ -527,7 +551,6 @@ body {
 .trust-section .all {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
 
@@ -535,29 +558,33 @@ body {
 .trust-card {
     width: 100%;
     max-width: 1100px;
-    height: 420px;
+    height: 420px;                 /* fixed height */
     background-color: var(--Dark);
     border-radius: 24px;
     overflow: hidden;
     position: relative;
 }
 
-/* SLIDES */
+/* SLIDES (STACKED MODEL – REQUIRED) */
 .trust-slide {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
-    padding: 40px;
     gap: 40px;
-    transform: translateY(-100%);
+    padding: 40px;
+
     opacity: 0;
-    transition: all 0.8s ease;
+    transform: translateY(-100%);
+    transition: transform 0.8s ease, opacity 0.8s ease;
+
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .trust-slide.active {
-    transform: translateY(0);
     opacity: 1;
+    transform: translateY(0);
     z-index: 1;
 }
 
@@ -570,10 +597,6 @@ body {
 /* RIGHT */
 .trust-right h2 {
     font-size: 32px;
-    color: var(--light);
-}
-
-.trust-right h2 span {
     color: var(--light);
 }
 
@@ -594,18 +617,27 @@ body {
     font-weight: bold;
 }
 
-/* RESPONSIVE */
+/* ================= MOBILE FIX ================= */
 @media (max-width: 768px) {
 
+    /* keep height stable */
     .trust-card {
-        height: auto;
+        height: 490px;
     }
 
+    /* safe mobile animation */
     .trust-slide {
-        position: relative;
         flex-direction: column;
         text-align: center;
         padding: 30px 20px;
+
+        transform: translateY(30px);   /* override -100% */
+        opacity: 0;
+    }
+
+    .trust-slide.active {
+        transform: translateY(0);
+        opacity: 1;
     }
 
     .trust-left img {
@@ -617,8 +649,7 @@ body {
     }
 }
 
-
-/* ===== TRUST INFO SECTION ===== */
+/* ================= TRUST INFO (UNCHANGED) ================= */
 .trust-info {
     max-width: 1100px;
     margin: 50px auto 0;
@@ -627,13 +658,11 @@ body {
     padding: 0 20px;
 }
 
-/* LEFT TEXT */
 .trust-info-left h3 {
     font-size: 28px;
     color: var(--light);
 }
 
-/* RIGHT CONTENT */
 .trust-info-right p {
     color: var(--light);
     line-height: 1.6;
@@ -641,7 +670,6 @@ body {
     max-width: 520px;
 }
 
-/* FEATURES */
 .trust-features {
     display: flex;
     gap: 30px;
@@ -664,7 +692,6 @@ body {
     font-weight: 500;
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
     .trust-info {
         flex-direction: column;
@@ -676,7 +703,6 @@ body {
         align-items: center;
     }
 }
-
 
 
 
@@ -1392,7 +1418,7 @@ body {
 
   /* Center testimonial content box smaller */
   .testimonial-content.show {
-    width: 90%;   /* full width on mobile */
+    width: 40%;   /* full width on mobile */
     height: auto; /* adjust height automatically */
     padding: 15px 10px;
   }
@@ -1430,12 +1456,6 @@ body {
 
 
 
-
-/* :root {
-    --Dark: rgb(156, 18, 78);
-    --light: rgb(254, 242, 231);
-    --black: rgb(88, 86, 82);
-} */
 
 /* Footer overall */
 .site-footer {
@@ -1491,7 +1511,8 @@ body {
 }
 
 .footer-links ul li a:hover {
-  color: var(--black);
+  /* color: black; */
+  text-decoration: underline;
 }
 
 /* Social Icons */
@@ -1504,7 +1525,6 @@ body {
 }
 
 .footer-socials a:hover {
-  color: var(--black);
   transform: scale(1.2);
 }
 

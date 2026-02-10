@@ -5,6 +5,7 @@ const navMenu = document.getElementById("navMenu");
 
 hamburger.addEventListener("click", () => {
     navMenu.classList.toggle("active");
+    document.body.style.overflow="hidden";
 });
 
 
